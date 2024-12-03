@@ -1,5 +1,6 @@
 package com.vtiger.stepdefinitions;
 
+import com.codoid.products.exception.FilloException;
 import io.cucumber.java.*;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -15,10 +16,9 @@ import java.io.IOException;
 public class LoginSteps extends BaseSteps {
 
     @Before
-    public void getScenarioName(Scenario scenario)
-    {
+    public void getScenarioName(Scenario scenario) throws FilloException, IOException {
         if(extent==null) {
-            createExtentReport();
+            initiation();
         }
         ScenarioName = scenario.getName();
         logger = extent.createTest(ScenarioName);

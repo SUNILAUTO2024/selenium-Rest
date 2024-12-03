@@ -32,14 +32,22 @@ public class BaseSteps extends PageObjectManager {
     public static Properties prop;
     public static Map<String, Map<String,String>> td;
     public static String ScenarioName;
+    public static Map<String, Map<String,String>> APItd;
 
+
+    public void initiation() throws IOException, FilloException {
+        createExtentReport();
+        readproperties();
+        td=readExcel(System.getProperty("user.dir")+"/src/test/resources/Data/TestData.xlsx","Sheet1");
+       APItd = readExcel(System.getProperty("user.dir")+"/src/test/resources/Data/apidata.xlsx","Sheet1");
+    }
 
 
     public void launchApp() throws Exception {
 
-        readproperties();
-        readExcel(System.getProperty("user.dir")+"/src/test/resources/Data/TestData.xlsx","Sheet1");
-        System.out.println(td);
+//        readproperties();
+//        readExcel(System.getProperty("user.dir")+"/src/test/resources/Data/TestData.xlsx","Sheet1");
+//        System.out.println(td);
        // System.exit(0);
         if(prop.getProperty("browser").equalsIgnoreCase("edge"))
         {
@@ -85,7 +93,8 @@ public class BaseSteps extends PageObjectManager {
     }
 
 
-    public void readExcel(String workbook, String sheet) throws FilloException {
+    public Map<String, Map<String,String>> readExcel(String workbook, String sheet) throws FilloException {
+         Map<String, Map<String,String>> td;
         Fillo fillo = new Fillo();
         Connection connection = fillo.getConnection(workbook);
         String strQuery = "Select * from "+sheet;
@@ -106,5 +115,7 @@ public class BaseSteps extends PageObjectManager {
         }
         recordset.close();
         connection.close();
+
+        return td;
     }
 }
